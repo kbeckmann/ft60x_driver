@@ -24,7 +24,7 @@
 
 /* Define these values to match your devices */
 #define USB_FT60X_VENDOR_ID	0x0403
-#define USB_FT60X_PRODUCT_ID	0x601f
+#define USB_FT60X_PRODUCT_ID	0x601e
 
 /* table of devices that work with this driver */
 static const struct usb_device_id ft60x_table[] = {

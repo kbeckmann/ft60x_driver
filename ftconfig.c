@@ -200,7 +200,7 @@ int main()
 	int i;
 	FT_60XCONFIGURATION oConfigurationData = { 0 };
 
-	in = open("/dev/ft60x2", O_RDWR | O_CLOEXEC);
+	in = open("/dev/ft60x1", O_RDWR | O_CLOEXEC);
 	ioctl(in, 0, &oConfigurationData);
 
 	show_config(&oConfigurationData, 1);

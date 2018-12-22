@@ -193,14 +193,19 @@ int show_config(FT_60XCONFIGURATION * a_pConfigurationData, int a_bRead)
 	printf("\n");
 }
 
-int main()
+int main(int argc, char **argv)
 {
 	int in;
 	unsigned char buf[0x100];
 	int i;
 	FT_60XCONFIGURATION oConfigurationData = { 0 };
 
-	in = open("/dev/ft60x1", O_RDWR | O_CLOEXEC);
+	if (argc != 2) {
+		printf("Usage %s </dev/ft60x?>\n", argv[0], argv[1]);
+		return 1;
+	}
+
+	in = open(argv[1], O_RDWR | O_CLOEXEC);
 	ioctl(in, 0, &oConfigurationData);
 
 	show_config(&oConfigurationData, 1);

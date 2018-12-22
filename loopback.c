@@ -36,13 +36,18 @@ int main(int argc, char **argv)
 	unsigned char *buf;
 	int i;
 
+	if (argc != 2) {
+		printf("Usage %s </dev/ft60x?>\n", argv[0], argv[1]);
+		return 1;
+	}
+
 	buf = malloc(128 * 1024);
 
 	for (i = 0; i < 128 * 1024; i++) {
 		buf[i] = 'A' + (i % 64);
 	}
 
-	in = open("/dev/ft60x1", O_RDWR | O_CLOEXEC);
+	in = open(argv[1], O_RDWR | O_CLOEXEC);
 
 	base = event_base_new();
 	if (!base) {
@@ -61,14 +66,12 @@ int main(int argc, char **argv)
     struct timeval tv;
 	uint32_t last_sec = 0;
 	uint64_t bytes = 0;
-	int first = 1;
 	while (1) {
-		first = 0;
 		write(in, buf, 2048);
 		bytes += 2048;
 
 	    gettimeofday(&tv, NULL);
-		if (!first && tv.tv_sec != last_sec) {
+		if (tv.tv_sec != last_sec) {
 			last_sec = tv.tv_sec;
 			printf("%llu bytes/s\n", bytes);
 			printf("%llu Mbytes/s\n", bytes / 1024 / 1024);
